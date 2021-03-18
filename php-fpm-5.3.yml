@@ -1,0 +1,5 @@
+
+phpfpm:
+  build: ./docker/php-fpm-5.3
+  volumes:
+    - ./docker/log/php-fpm:/var/log/php-fpm

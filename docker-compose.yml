@@ -1,12 +1,12 @@
 # PHP
 phpfpm:
   extends:
-    file: php-fpm-5.6.yml
+    file: php-fpm-5.3.yml
     service: phpfpm
   links:
     - db:db
   volumes:
-    - ./app:/var/www/html
+    - ./:/var/www/html
 
 # NGINX
 nginx:
@@ -16,9 +16,9 @@ nginx:
   links:
     - phpfpm:phpfpm
   volumes:
-    - ./nginx/conf.d:/etc/nginx/conf.d
-    - ./app:/var/www/html
-    - ./log/nginx:/var/log/nginx
+    - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    - ./:/var/www/html
+    - ./docker/log/nginx:/var/log/nginx
 
 # MYSQL
 db:
@@ -28,6 +28,6 @@ db:
   environment:
     MYSQL_ROOT_PASSWORD: 123456
   volumes:
-    - ./mysql/databases:/var/lib/mysql
-    - ./mysql/dump:/docker-entrypoint-initdb.d
-    - ./log/mysql:/var/log/mysql
+    - /docker/mysql/databases:/var/lib/mysql
+    - /docker/mysql/dump:/docker-entrypoint-initdb.d
+    - /docker/log/mysql:/var/log/mysql
