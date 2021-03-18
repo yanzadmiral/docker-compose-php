@@ -1,4 +1,10 @@
-# PHP
+nginx-proxy:
+  image: jwilder/nginx-proxy
+  ports:
+    - "80:80"
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+
 phpfpm:
   extends:
     file: php-fpm-5.3.yml
@@ -11,14 +17,14 @@ phpfpm:
 # NGINX
 nginx:
   image: nginx
-  ports:
-    - "8000:80"
   links:
     - phpfpm:phpfpm
   volumes:
     - ./docker/nginx/conf.d:/etc/nginx/conf.d
     - ./:/var/www/html
     - ./docker/log/nginx:/var/log/nginx
+  environment:
+    - VIRTUAL_HOST=ivo-ptp.test
 
 # MYSQL
 db:
